@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="page-wrapper">
+{#    <div class="row">#}
+      <div class="page-header">
+        <h1>Tags</h1>
+        <a href="{% url 'todo:tags-create' %}" class="btn-add">Add</a>
+      </div>
+      {% if tags_list %}
+        <div class="table-wrapper">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Update</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for tags in tags_list %}
+                <tr>
+                  <td>{{ tags.name }}</td>
+                  <td>
+                    <a href="{% url 'todo:tags-update' tags.pk %}" class="btn-action">Update</a>
+                  </td>
+                  <td>
+                    <a href="{% url 'todo:tags-delete' tags.pk %}" class="btn-action">Delete</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+      </div>
+      {% else %}
+        <p>There are no tags in the service.</p>
+      {% endif %}
+{#    </div>#}
+  </div>
+{% endblock %}

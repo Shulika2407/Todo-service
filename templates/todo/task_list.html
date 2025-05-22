@@ -1,5 +1,50 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>cvbvbv</h1>
+  <div class="page-wrapper">
+    <div class="page-header">
+      <h1>TODO list</h1>
+      <a href="{% url 'todo:todo-create' %}" class="btn-add">Add Task</a>
+    </div>
 
+    {% for task in task_list %}
+      <div class="task-box">  {# новый контейнер для единообразного внешнего вида #}
+
+        <div class="task-header">
+          <span class="task-content">{{ task.content }}</span>
+          {% if not task.done %}
+            <span class="done_red">Not done</span>
+          {% else %}
+            <span class="done_green">done</span>
+          {% endif %}
+{#        </div>#}
+{#        <div class="task-button">#}
+          {% if task.done %}
+            <a href="{% url 'todo:toggle-tag-assign' pk=task.id %}" class="task-button btn-action">
+              Undo
+            </a>
+          {% else %}
+            <a href="{% url 'todo:toggle-tag-assign' pk=task.id %}" class="btn-complete">
+              Complete
+            </a>
+          {% endif %}
+        </div>
+
+        <div class="task-dates">{{ task.datetime }} — {{ task.deadline }}</div>
+
+        <div class="task-teg">
+          Tags:
+          {% for task in task.tags.all %}
+            {{ task.name }}{% if not forloop.last %}, {% endif %}
+          {% empty %}
+            None
+          {% endfor %}
+          <a href="{% url 'todo:todo-update' task.pk %}" class="link-blue">Update</a>
+          <a href="{% url 'todo:todo-delete' task.pk %}" class="link-blue">Delete</a>
+        </div>
+
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}
+
+
